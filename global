@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Power - A Energia do Mundo no Seu Treino</title>
+
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts para uma tipografia moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones (para o menu mobile e redes sociais) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* Define a fonte Poppins como padrão para toda a página */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* Fundo cinza escuro */
+            color: #F3F4F6; /* Texto claro */
+        }
+
+        /* Animação para o surgimento suave do modal */
+        .modal-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Efeito de gradiente brilhante para os cards */
+        .card-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.75rem; /* mesmo rounded-xl do tailwind */
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #f87171, #60a5fa, #34d399) border-box;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) padding-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card-hover-effect:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 
+      REQUISITO 1: BARRA DE NAVEGAÇÃO (NAVBAR)
+      - Contém o logo e os links de navegação.
+      - Inclui um menu "hambúrguer" para telas pequenas (mobile).
+    -->
+    <header class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                ⚡ Global Power
+            </a>
+            
+            <!-- Links para Desktop -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#sabores" class="text-gray-300 hover:text-white transition">Sabores</a>
+                <a href="#contato" class="text-gray-300 hover:text-white transition">Contato</a>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">Compre Já</a>
+            </div>
+
+            <!-- Botão do Menu Mobile -->
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-white focus:outline-none">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Menu Mobile (escondido por padrão) -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#sabores" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Sabores</a>
+            <a href="#contato" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Contato</a>
+            <a href="#" class="block py-2 px-6 text-sm bg-blue-600 text-white text-center m-2 rounded-lg">Compre Já</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 
+          REQUISITO 2: CARROSSEL DE IMAGENS
+          - Apresenta os destaques da marca de forma visual e dinâmica.
+          - As imagens trocam automaticamente e também por botões manuais.
+        -->
+        <section id="carousel-section" class="relative w-full h-[60vh] md:h-screen overflow-hidden pt-16">
+            <div id="carousel-container" class="relative h-full">
+                <!-- Slides do Carrossel -->
+                <div class="carousel-slide absolute w-full h-full transition-opacity duration-1000 ease-in-out opacity-100">
+                    <img src="https://placehold.co/1920x1080/000000/FFFFFF?text=Atleta+em+Ação" class="w-full h-full object-cover" alt="Atleta treinando intensamente">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
+                        <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">A Energia do Mundo</h1>
+                        <p class="text-xl md:text-2xl mt-4 text-gray-300">no seu treino.</p>
+                    </div>
+                </div>
+                <div class="carousel-slide absolute w-full h-full transition-opacity duration-1000 ease-in-out opacity-0">
+                    <img src="https://placehold.co/1920x1080/34D399/FFFFFF?text=Açaí+do+Brasil" class="w-full h-full object-cover" alt="Imagem do pré-treino sabor açaí">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
+                        <h2 class="text-3xl md:text-5xl font-bold text-white">Sinta a Força da Amazônia</h2>
+                        <p class="text-lg md:text-xl mt-4 text-gray-300">Com o nosso pré-treino Açaí Power.</p>
+                    </div>
+                </div>
+                <div class="carousel-slide absolute w-full h-full transition-opacity duration-1000 ease-in-out opacity-0">
+                    <img src="https://placehold.co/1920x1080/F87171/FFFFFF?text=Matcha+do+Japão" class="w-full h-full object-cover" alt="Imagem do pré-treino sabor matcha">
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
+                        <h2 class="text-3xl md:text-5xl font-bold text-white">Foco e Resistência Milenares</h2>
+                        <p class="text-lg md:text-xl mt-4 text-gray-300">Descubra o poder do Matcha Focus.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Controles do Carrossel -->
+            <button id="prev-btn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/20 p-2 rounded-full text-white hover:bg-white/40 z-10"><i data-lucide="chevron-left"></i></button>
+            <button id="next-btn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/20 p-2 rounded-full text-white hover:bg-white/40 z-10"><i data-lucide="chevron-right"></i></button>
+        </section>
+
+        <!-- 
+          REQUISITO 3: CATÁLOGO DE PRODUTOS
+          - Exibe os pré-treinos em cards.
+          - Cada card contém imagem, nome, país e um botão "Ver Detalhes".
+          - O botão aciona o Modal com mais informações.
+        -->
+        <section id="sabores" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Explore Nossos Sabores</h2>
+                <div id="product-catalog" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
+                    
+                    <!-- Produto 1: Brasil -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect" 
+                         data-nome="Açaí Power" 
+                         data-pais="Brasil 🇧🇷"
+                         data-imagem="https://placehold.co/400x400/4F46E5/FFFFFF?text=Açaí"
+                         data-descricao="Libere a energia selvagem da Amazônia. O poder concentrado do açaí para treinos que exigem força e resistência máximas.">
+                        <img src="https://placehold.co/400x400/4F46E5/FFFFFF?text=Açaí" alt="Pré-treino sabor Açaí" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Açaí Power</h3>
+                        <p class="text-indigo-400 font-semibold mb-4">Brasil 🇧🇷</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                    <!-- Produto 2: Itália -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect" 
+                         data-nome="Tiramisú Boost"
+                         data-pais="Itália 🇮🇹"
+                         data-imagem="https://placehold.co/400x400/78350F/FFFFFF?text=Tiramisú"
+                         data-descricao="A energia sofisticada da Itália. O sabor marcante do café e cacau para um impulso de performance com muito estilo.">
+                        <img src="https://placehold.co/400x400/78350F/FFFFFF?text=Tiramisú" alt="Pré-treino sabor Tiramisú" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Tiramisú Boost</h3>
+                        <p class="text-yellow-700 font-semibold mb-4">Itália 🇮🇹</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+                    
+                    <!-- Produto 3: Japão -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Matcha Focus"
+                         data-pais="Japão 🇯🇵"
+                         data-imagem="https://placehold.co/400x400/10B981/FFFFFF?text=Matcha"
+                         data-descricao="Concentre-se como um samurai. O poder milenar do matcha para um foco mental absoluto e uma resistência que vai além dos limites.">
+                         <img src="https://placehold.co/400x400/10B981/FFFFFF?text=Matcha" alt="Pré-treino sabor Matcha" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Matcha Focus</h3>
+                        <p class="text-emerald-400 font-semibold mb-4">Japão 🇯🇵</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+                    
+                    <!-- Produto 4: México -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect" 
+                         data-nome="Pimenta Explosiva"
+                         data-pais="México 🇲🇽"
+                         data-imagem="https://placehold.co/400x400/DC2626/FFFFFF?text=Pimenta"
+                         data-descricao="Sinta o calor da superação. Uma combinação intensa que acende seu metabolismo e explode sua energia para treinos de alta octanagem.">
+                        <img src="https://placehold.co/400x400/DC2626/FFFFFF?text=Pimenta" alt="Pré-treino sabor Pimenta" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Pimenta Explosiva</h3>
+                        <p class="text-red-500 font-semibold mb-4">México 🇲🇽</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+                    
+                    <!-- Produto 5: EUA -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Peanut Butter Strength"
+                         data-pais="EUA 🇺🇸"
+                         data-imagem="https://placehold.co/400x400/F59E0B/FFFFFF?text=Amendoim"
+                         data-descricao="A força bruta americana em um scoop. O sabor irresistível da pasta de amendoim para treinos de força e construção muscular.">
+                        <img src="https://placehold.co/400x400/F59E0B/FFFFFF?text=Amendoim" alt="Pré-treino sabor Pasta de Amendoim" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Peanut Butter Strength</h3>
+                        <p class="text-amber-500 font-semibold mb-4">EUA 🇺🇸</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+                    
+                    <!-- Produto 6: Egito -->
+                     <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Tâmara Power"
+                         data-pais="Egito 🇪🇬"
+                         data-imagem="https://placehold.co/400x400/CA8A04/FFFFFF?text=Tâmara"
+                         data-descricao="A energia dos faraós para seus treinos. A doçura natural da tâmara fornece um combustível duradouro para resistência e poder ancestral.">
+                        <img src="https://placehold.co/400x400/CA8A04/FFFFFF?text=Tâmara" alt="Pré-treino sabor Tâmara" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Tâmara Power</h3>
+                        <p class="text-yellow-500 font-semibold mb-4">Egito 🇪🇬</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                    <!-- Produto 7: Índia -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Chai Spicy Pump"
+                         data-pais="Índia 🇮🇳"
+                         data-imagem="https://placehold.co/400x400/EA580C/FFFFFF?text=Chai"
+                         data-descricao="Desperte seus sentidos com o calor das especiarias indianas. Uma mistura exótica que aquece seus músculos e proporciona um pump incrível.">
+                        <img src="https://placehold.co/400x400/EA580C/FFFFFF?text=Chai" alt="Pré-treino sabor Chai" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Chai Spicy Pump</h3>
+                        <p class="text-orange-500 font-semibold mb-4">Índia 🇮🇳</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                    <!-- Produto 8: África do Sul -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Manga Tropical"
+                         data-pais="África do Sul 🇿🇦"
+                         data-imagem="https://placehold.co/400x400/FACC15/000000?text=Manga"
+                         data-descricao="A energia vibrante do sol africano. O sabor suculento da manga para treinos refrescantes, cheios de vitalidade e explosão.">
+                        <img src="https://placehold.co/400x400/FACC15/000000?text=Manga" alt="Pré-treino sabor Manga" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Manga Tropical</h3>
+                        <p class="text-yellow-400 font-semibold mb-4">África do Sul 🇿🇦</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                    <!-- Produto 9: Austrália -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Vegemite Shock"
+                         data-pais="Austrália 🇦🇺"
+                         data-imagem="https://placehold.co/400x400/171717/FBBF24?text=Vegemite"
+                         data-descricao="Para os mais corajosos! Um sabor único e intenso que vai chocar seu sistema e te dar um impulso eletrizante para os treinos mais insanos.">
+                        <img src="https://placehold.co/400x400/171717/FBBF24?text=Vegemite" alt="Pré-treino sabor Vegemite" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Vegemite Shock</h3>
+                        <p class="text-yellow-600 font-semibold mb-4">Austrália 🇦🇺</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                    <!-- Produto 10: Alemanha -->
+                    <div class="product-card bg-gray-800 rounded-xl p-6 text-center flex flex-col items-center relative overflow-hidden card-hover-effect"
+                         data-nome="Maçã Strudel Force"
+                         data-pais="Alemanha 🇩🇪"
+                         data-imagem="https://placehold.co/400x400/991B1B/FFFFFF?text=Strudel"
+                         data-descricao="A precisão e a força alemã em forma de sabor. A combinação de maçã e canela para treinos calculados e com potência máxima.">
+                        <img src="https://placehold.co/400x400/991B1B/FFFFFF?text=Strudel" alt="Pré-treino sabor Strudel de Maçã" class="w-48 h-48 object-cover rounded-full mb-4">
+                        <h3 class="text-xl font-bold mb-1">Maçã Strudel Force</h3>
+                        <p class="text-red-700 font-semibold mb-4">Alemanha 🇩🇪</p>
+                        <button class="details-btn mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition w-full">Ver Detalhes</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 
+      REQUISITO 4: RODAPÉ (FOOTER)
+    -->
+    <footer id="contato" class="bg-gray-900 border-t border-gray-700">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <h3 class="text-2xl font-bold text-white mb-4">⚡ Global Power</h3>
+            <p class="mb-4">A energia do mundo no seu treino.</p>
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="#" class="hover:text-white"><i data-lucide="instagram"></i></a>
+                <a href="#" class="hover:text-white"><i data-lucide="facebook"></i></a>
+                <a href="#" class="hover:text-white"><i data-lucide="twitter"></i></a>
+            </div>
+            <p>&copy; 2025 Global Power. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- 
+      REQUISITO 5: MODAL com integração GEMINI API
+    -->
+    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-gray-800 rounded-xl w-full max-w-md mx-auto modal-fade-in relative text-center p-6 md:p-8">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x"></i>
+            </button>
+            <img id="modal-img" src="" alt="Imagem do produto" class="w-48 h-48 object-cover rounded-full mb-4 mx-auto">
+            <h2 id="modal-title" class="text-2xl font-bold text-white mb-2"></h2>
+            <p id="modal-country" class="font-semibold text-blue-400 mb-4"></p>
+            <p id="modal-description" class="text-gray-300"></p>
+
+            <div id="gemini-feature" class="mt-6 text-left">
+                <button id="generate-workout-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition w-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="mr-2">✨</span> Crie uma Rotina de Treino
+                </button>
+                <div id="workout-loader" class="hidden mt-4 text-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
+                    <p class="mt-2 text-sm text-gray-400">Gerando seu treino temático...</p>
+                </div>
+                <div id="workout-result" class="mt-4 p-4 bg-gray-900 rounded-lg hidden prose prose-invert prose-sm max-w-none">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Inicializa os ícones do Lucide
+        lucide.createIcons();
+
+        /*
+         * LÓGICA PARA O MENU MOBILE (HAMBÚRGUER)
+         */
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        /*
+         * LÓGICA PARA O CARROSSEL DE IMAGENS
+         */
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide) => {
+                slide.classList.remove('opacity-100');
+                slide.classList.add('opacity-0');
+            });
+            slides[index].classList.remove('opacity-0');
+            slides[index].classList.add('opacity-100');
+        }
+        
+        function next() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prev() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            next();
+            resetInterval();
+        });
+        prevBtn.addEventListener('click', () => {
+            prev();
+            resetInterval();
+        });
+        
+        function startInterval() {
+             slideInterval = setInterval(next, 5000);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            startInterval();
+        }
+
+        startInterval();
+
+
+        /*
+         * LÓGICA PARA O MODAL DE PRODUTOS
+         */
+        const productCatalog = document.getElementById('product-catalog');
+        const modal = document.getElementById('product-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalCountry = document.getElementById('modal-country');
+        const modalDescription = document.getElementById('modal-description');
+        
+        productCatalog.addEventListener('click', (event) => {
+            const detailsBtn = event.target.closest('.details-btn');
+            if (detailsBtn) {
+                const card = detailsBtn.closest('.product-card');
+                
+                modalImg.src = card.dataset.imagem;
+                modalTitle.textContent = card.dataset.nome;
+                modalCountry.textContent = card.dataset.pais;
+                modalDescription.textContent = card.dataset.descricao;
+                
+                workoutResult.classList.add('hidden');
+                workoutResult.innerHTML = '';
+                workoutLoader.classList.add('hidden');
+                generateWorkoutBtn.disabled = false;
+                
+                modal.classList.remove('hidden');
+            }
+        });
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+
+        /*
+         * LÓGICA PARA A API GEMINI
+         */
+        const generateWorkoutBtn = document.getElementById('generate-workout-btn');
+        const workoutLoader = document.getElementById('workout-loader');
+        const workoutResult = document.getElementById('workout-result');
+
+        generateWorkoutBtn.addEventListener('click', async () => {
+            const nomeProduto = modalTitle.textContent;
+            const paisProduto = modalCountry.textContent.split(' ')[0]; 
+
+            workoutLoader.classList.remove('hidden');
+            workoutResult.classList.add('hidden');
+            generateWorkoutBtn.disabled = true;
+
+            const systemPrompt = "Aja como um preparador físico criativo e motivador. Responda em português do Brasil.";
+            const userQuery = `Crie uma rotina de treino curta e energética (3 a 4 exercícios) inspirada na cultura ou nos esportes do ${paisProduto}. O pré-treino que estou tomando é o "${nomeProduto}". Descreva os exercícios de forma empolgante, temática e fácil de entender. Formate a resposta usando um título em negrito e uma lista de exercícios. Use quebras de linha para separar os itens.`;
+            
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                let response;
+                let retries = 3;
+                let delay = 1000;
+                for (let i = 0; i < retries; i++) {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) break;
+                    if (response.status === 429 || response.status >= 500) {
+                         await new Promise(resolve => setTimeout(resolve, delay));
+                         delay *= 2;
+                    } else {
+                        break;
+                    }
+                }
+
+                if (!response.ok) {
+                    throw new Error(`API error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const formattedText = candidate.content.parts[0].text
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br>');
+                    workoutResult.innerHTML = formattedText;
+                } else {
+                    workoutResult.innerHTML = "Não foi possível gerar um treino no momento. Tente novamente mais tarde.";
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                workoutResult.innerHTML = "Ocorreu um erro ao conectar com o serviço. Verifique sua conexão e tente novamente.";
+            } finally {
+                workoutLoader.classList.add('hidden');
+                workoutResult.classList.remove('hidden');
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+
